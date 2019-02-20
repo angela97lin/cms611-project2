@@ -6,7 +6,7 @@ public class BoardCreator : MonoBehaviour
 {
     public int gridWidth = 7;
     public int gridHeight = 14;
-    public float spriteSize = 1f;
+    private float spriteSize = .15f;
     public Transform boardCenterTransform;
     public GridSpace gridSpacePrefab;
 
@@ -54,6 +54,6 @@ public class BoardCreator : MonoBehaviour
 
     Vector2 GridSpacePosition(int xIndex, int yIndex, int width, int height)
     {
-        return new Vector2(xIndex - (width / 2) + 0.5f, -1 * (yIndex - (height / 2) + 0.5f)) * spriteSize;
+        return new Vector2(boardCenterTransform.position.x, boardCenterTransform.position.y) + new Vector2(xIndex - (width / 2) + 0.5f, -1 * (yIndex - (height / 2) + 0.5f)) * spriteSize;
     }
 }
