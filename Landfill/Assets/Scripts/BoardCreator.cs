@@ -9,17 +9,22 @@ public class BoardCreator : MonoBehaviour
     private float spriteSize = .15f;
     public Transform boardCenterTransform;
     public GridSpace gridSpacePrefab;
+    public GamePiece gamePiecePrefab;
+    public Block blockPrefab;
 
+    public List<List<GridSpace>> board;
     // Start is called before the first frame update
+    public Spawner spawner;
     void Start()
     {
         CreateBoard(gridWidth, gridHeight);
     }
+    
 
     void CreateBoard(int width, int height)
     {
         // Initialize empty board
-        List<List<GridSpace>> board = new List<List<GridSpace>>();
+        board = new List<List<GridSpace>>();
         for (int i = 0; i < height; i++)
         {
             board.Add(new List<GridSpace>());
@@ -30,7 +35,12 @@ public class BoardCreator : MonoBehaviour
         {
             for (int xIndex = 0; xIndex < width; xIndex++)
             {
-                board[yIndex].Add(Instantiate(gridSpacePrefab, GridSpacePosition(xIndex, yIndex, width, height), Quaternion.identity)); // TODO: Instantiate in proper location
+                // TODO: Instantiate in proper location
+                GridSpace gridSpace = Instantiate(gridSpacePrefab, GridSpacePosition(xIndex, yIndex, width, height),
+                    Quaternion.identity);
+                board[yIndex].Add(gridSpace);
+                gridSpace.x = xIndex;
+                gridSpace.y = yIndex;
             }
         }
 
@@ -50,7 +60,10 @@ public class BoardCreator : MonoBehaviour
             }
         }
         board[0][0].SetActive();
+        spawner.spawnSpace = board[0][gridWidth / 2];
+        spawner.Spawn();
     }
+    
 
     Vector2 GridSpacePosition(int xIndex, int yIndex, int width, int height)
     {

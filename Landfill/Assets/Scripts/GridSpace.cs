@@ -10,7 +10,10 @@ public class GridSpace : MonoBehaviour
     GridSpace downSpace = null;
     bool isActive = false;
     static float movedTime = 0f;
+    public bool isOccupied = false;
 
+    public int x, y;
+    
     public void Update()
     {
         // NOTE: This is only for testing grid connectivity
