@@ -219,6 +219,7 @@ MonoBehaviour:
     type: 3}
   blockPrefab: {fileID: 2141171024411544276, guid: 42a967ded31dc42e69000fcc352462a4,
     type: 3}
+  spawner: {fileID: 2943403223461915, guid: 78af7c65ffa5a43dcb029108e1be431a, type: 3}
 --- !u!4 &515849045
 Transform:
   m_ObjectHideFlags: 0

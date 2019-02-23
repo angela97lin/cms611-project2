@@ -7,75 +7,124 @@ public class GamePiece : MonoBehaviour
     public Block blockOne;
     public Block blockTwo;
     static float movedTime = 0f;
+    static float autoMoveTime = 0f;
+    public Spawner spawner;
 
     void Start()
     {
     }
         
-        
     void Update()
     {
-        //todo: if valid
-        if (Mathf.Abs(movedTime - Time.time) > 0.2f)
+  
+        if (Input.GetAxisRaw("Horizontal") > 0.5f) // Right
         {
-            
-            if (Input.GetAxisRaw("Horizontal") > 0.5f) // Right
+            if (Mathf.Abs(movedTime - Time.time) > 0.15f)
             {
-
-
-            }
-            else if (Input.GetAxisRaw("Horizontal") < -0.5f) // Left
-            {
-                moveLeft();
-                movedTime = Time.time;
-            }
-            else if (Input.GetAxisRaw("Vertical") > 0.5f)
-            {
-            }
-            else if (Input.GetAxisRaw("Vertical") < -0.5f)
-            {
-                moveDown();
+                moveRight();
                 movedTime = Time.time;
             }
         }
+        else if (Input.GetAxisRaw("Horizontal") < -0.5f) // Left
+        {
+            if (Mathf.Abs(movedTime - Time.time) > 0.15f)
+            {
+
+                moveLeft();
+                print(autoMoveTime);
+                movedTime = Time.time;
+            }
+        }
+
+        else if (Input.GetAxisRaw("Vertical") < -0.5f)// Down
+        {
+            if (Mathf.Abs(movedTime - Time.time) > 0.15f)
+            {
+                bool movedDown = moveDown();
+                if (!movedDown)
+                {
+                    enabled = false;
+                    spawner.Spawn();
+
+                }
+                movedTime = Time.time;
+            }
+            
+        }
+
+
+        if (Mathf.Abs(autoMoveTime - Time.time) > 0.25f)
+        {
+            bool movedDown = moveDown();
+            if (!movedDown)
+            {
+                enabled = false;
+                spawner.Spawn();
+
+            }
+            autoMoveTime = Time.time;
+        }
+
     }
 
-    void moveLeft()
+
+
+    void updatePosition(GridSpace nextOne, GridSpace nextTwo)
     {
         GridSpace currentOneGS = blockOne.occupying;
         GridSpace currentTwoGS = blockTwo.occupying;
 
-        GridSpace nextOne = currentOneGS.GetLeftSpace();
-        GridSpace nextTwo = currentTwoGS.GetLeftSpace();
-
         blockOne.occupying = nextOne;
         blockTwo.occupying = nextTwo;
+        nextOne.isOccupied = true;
+        nextTwo.isOccupied = true;
 
         currentOneGS.isOccupied = false;
         currentTwoGS.isOccupied = false;
 
         blockOne.transform.position = nextOne.transform.position;
-        blockTwo.transform.position = nextTwo.transform.position;
+        blockTwo.transform.position = nextTwo.transform.position; 
     }
 
-    void moveDown()
+    bool moveRight()
     {
-        
-        // add null checkers!
-        GridSpace currentOneGS = blockOne.occupying;
-        GridSpace currentTwoGS = blockTwo.occupying;
+        GridSpace nextOne = blockOne.occupying.GetRightSpace();
+        GridSpace nextTwo = blockTwo.occupying.GetRightSpace();
 
-        GridSpace nextOne = currentOneGS.GetDownSpace();
-        GridSpace nextTwo = currentTwoGS.GetDownSpace();
+        // Not a good enough check but for dummy things right now
+        // Will not work for rotations and straight :(
+        if (nextTwo && !nextTwo.isOccupied)
+        {
+            updatePosition(nextOne, nextTwo);
+            return true;
+        }
 
-        blockOne.occupying = nextOne;
-        blockTwo.occupying = nextTwo;
+        return false;
+    }
+    
+    bool moveLeft()
+    {
+        GridSpace nextOne = blockOne.occupying.GetLeftSpace();
+        GridSpace nextTwo = blockTwo.occupying.GetLeftSpace();
+        if (nextOne && !nextOne.isOccupied)
+        {
+            updatePosition(nextOne, nextTwo);
+            return true;
+        }
 
-        currentOneGS.isOccupied = false;
-        currentTwoGS.isOccupied = false;
+        return false;
+    }
 
-        blockOne.transform.position = nextOne.transform.position;
-        blockTwo.transform.position = nextTwo.transform.position;
+    bool moveDown()
+    {
+        GridSpace nextOne = blockOne.occupying.GetDownSpace();
+        GridSpace nextTwo = blockTwo.occupying.GetDownSpace();
+        if ((nextOne && !nextOne.isOccupied) && (nextTwo && !nextTwo.isOccupied))
+        {
+            updatePosition(nextOne, nextTwo);
+            return true;
+        }
 
+        return false;
     }
 }

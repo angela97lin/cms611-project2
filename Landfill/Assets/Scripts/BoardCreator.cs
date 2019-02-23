@@ -12,8 +12,9 @@ public class BoardCreator : MonoBehaviour
     public GamePiece gamePiecePrefab;
     public Block blockPrefab;
 
-    private List<List<GridSpace>> board;
+    public List<List<GridSpace>> board;
     // Start is called before the first frame update
+    public Spawner spawner;
     void Start()
     {
         CreateBoard(gridWidth, gridHeight);
@@ -54,28 +55,10 @@ public class BoardCreator : MonoBehaviour
             }
         }
         board[0][0].SetActive();
-        Spawn();
+        spawner.spawnSpace = board[0][gridWidth / 2];
+        spawner.Spawn();
     }
-
-
-    void Spawn()
-    {
-        GamePiece newGamePiece =
-            Instantiate(gamePiecePrefab, board[0][gridWidth / 2].transform.position, Quaternion.identity);
-        Block blockOne =
-            Instantiate(blockPrefab, board[0][gridWidth / 2].transform.position + new Vector3(0.15f, 0.0f, 0.0f), Quaternion.identity);
-        Block blockTwo =
-            Instantiate(blockPrefab, board[0][gridWidth / 2].transform.position, Quaternion.identity);
-
-        newGamePiece.blockOne = blockOne;
-        newGamePiece.blockTwo = blockTwo;
-        
-        blockOne.occupying = board[0][gridWidth / 2];
-        blockTwo.occupying = board[0][gridWidth / 2 + 1];
-        board[0][gridWidth / 2].isOccupied = true;
-        board[0][gridWidth / 2 + 1].isOccupied = true;
-    }
-
+    
 
     Vector2 GridSpacePosition(int xIndex, int yIndex, int width, int height)
     {
