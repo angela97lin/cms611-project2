@@ -1,3 +1,6 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEditor.StyleSheets;
 using UnityEngine;
 
     public class Spawner : MonoBehaviour
@@ -6,6 +9,17 @@ using UnityEngine;
         public GamePiece gamePiecePrefab;
         public Block blockPrefab;
         public GridSpace spawnSpace;
+
+        
+        // Note: this list of sprites must match up to Block.Type enum!
+        public List<Sprite> sprites;
+
+
+        public Block.Type getRandomType()
+        {
+            int i = Random.Range(0, (int)Block.Type.Size);
+            return (Block.Type) i;
+        }
         
         public void Spawn()
         {
@@ -22,16 +36,25 @@ using UnityEngine;
                 Block blockTwo =
                     Instantiate(blockPrefab, spawnSpace.transform.position, Quaternion.identity);
 
+                // Set up blocks and game piece
                 blockOne.transform.parent = newGamePiece.gameObject.transform;
                 blockTwo.transform.parent = newGamePiece.gameObject.transform;
-
+                blockOne.occupying = spawnSpace;
+                blockTwo.occupying = spawnSpace.GetRightSpace();
+                blockOne.type = getRandomType();
+                blockTwo.type = getRandomType();
+                // to do: make sure trash and nuclear are not together
+                
                 newGamePiece.blockOne = blockOne;
                 newGamePiece.blockTwo = blockTwo;
         
-                blockOne.occupying = spawnSpace;
-                blockTwo.occupying = spawnSpace.GetRightSpace();
+
                 spawnSpace.isOccupied = true;
                 spawnSpace.GetRightSpace().isOccupied = true; 
+                
+                
+                
+                
             }
 
             else

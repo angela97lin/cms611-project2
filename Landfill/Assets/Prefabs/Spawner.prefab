@@ -48,3 +48,7 @@ MonoBehaviour:
   blockPrefab: {fileID: 2141171024411544276, guid: 42a967ded31dc42e69000fcc352462a4,
     type: 3}
   spawnSpace: {fileID: 0}
+  sprites:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 21300000, guid: dc87e150163a549be97b162a2db5013f, type: 3}
