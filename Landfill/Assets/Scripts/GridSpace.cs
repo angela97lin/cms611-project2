@@ -11,7 +11,8 @@ public class GridSpace : MonoBehaviour
     bool isActive = false;
     static float movedTime = 0f;
     public bool isOccupied = false;
-    
+
+    public int x, y;
     
     public void Update()
     {

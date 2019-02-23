@@ -35,7 +35,12 @@ public class BoardCreator : MonoBehaviour
         {
             for (int xIndex = 0; xIndex < width; xIndex++)
             {
-                board[yIndex].Add(Instantiate(gridSpacePrefab, GridSpacePosition(xIndex, yIndex, width, height), Quaternion.identity)); // TODO: Instantiate in proper location
+                // TODO: Instantiate in proper location
+                GridSpace gridSpace = Instantiate(gridSpacePrefab, GridSpacePosition(xIndex, yIndex, width, height),
+                    Quaternion.identity);
+                board[yIndex].Add(gridSpace);
+                gridSpace.x = xIndex;
+                gridSpace.y = yIndex;
             }
         }
 

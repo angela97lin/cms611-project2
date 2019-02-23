@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.StyleSheets;
 using UnityEngine;
 
 public class GamePiece : MonoBehaviour
@@ -13,10 +14,12 @@ public class GamePiece : MonoBehaviour
     void Start()
     {
     }
-        
+
+    
+    // To deal with: lose as soon as top hits?
     void Update()
     {
-  
+
         if (Input.GetAxisRaw("Horizontal") > 0.5f) // Right
         {
             if (Mathf.Abs(movedTime - Time.time) > 0.15f)
@@ -31,14 +34,13 @@ public class GamePiece : MonoBehaviour
             {
 
                 moveLeft();
-                print(autoMoveTime);
                 movedTime = Time.time;
             }
         }
 
-        else if (Input.GetAxisRaw("Vertical") < -0.5f)// Down
+        else if (Input.GetAxisRaw("Vertical") < -0.5f) // Down
         {
-            if (Mathf.Abs(movedTime - Time.time) > 0.15f)
+            if (Mathf.Abs(movedTime - Time.time) > 0.5f)
             {
                 bool movedDown = moveDown();
                 if (!movedDown)
@@ -47,21 +49,54 @@ public class GamePiece : MonoBehaviour
                     spawner.Spawn();
 
                 }
+
                 movedTime = Time.time;
             }
-            
         }
 
+        else if (Input.GetKeyDown(KeyCode.X)) // 
+                 {
+                     if (Mathf.Abs(movedTime - Time.time) > 0.15f)
+                     {
+                         bool rotated = rotateClockwise();
+                         if (!rotated)
+                         {
+                             //enabled = false;
+                             //spawner.Spawn();
+         
+                         }
+         
+                         movedTime = Time.time;
+                     }
+                 }
+        
+        else if (Input.GetKeyDown(KeyCode.Z)) // 
+        {
+            if (Mathf.Abs(movedTime - Time.time) > 0.15f)
+            {
+                bool rotated = rotateCounterclockwise();
+                if (!rotated)
+                {
+                    //enabled = false;
+                    //spawner.Spawn();
 
-        if (Mathf.Abs(autoMoveTime - Time.time) > 0.25f)
+                }
+
+                movedTime = Time.time;
+            }
+        }
+
+        if (Mathf.Abs(autoMoveTime - Time.time) > 0.2f)
         {
             bool movedDown = moveDown();
             if (!movedDown)
             {
+                
                 enabled = false;
                 spawner.Spawn();
 
             }
+
             autoMoveTime = Time.time;
         }
 
@@ -76,14 +111,15 @@ public class GamePiece : MonoBehaviour
 
         blockOne.occupying = nextOne;
         blockTwo.occupying = nextTwo;
-        nextOne.isOccupied = true;
-        nextTwo.isOccupied = true;
-
         currentOneGS.isOccupied = false;
         currentTwoGS.isOccupied = false;
 
+        nextOne.isOccupied = true;
+        nextTwo.isOccupied = true;
+
+
         blockOne.transform.position = nextOne.transform.position;
-        blockTwo.transform.position = nextTwo.transform.position; 
+        blockTwo.transform.position = nextTwo.transform.position;
     }
 
     bool moveRight()
@@ -101,7 +137,7 @@ public class GamePiece : MonoBehaviour
 
         return false;
     }
-    
+
     bool moveLeft()
     {
         GridSpace nextOne = blockOne.occupying.GetLeftSpace();
@@ -119,12 +155,130 @@ public class GamePiece : MonoBehaviour
     {
         GridSpace nextOne = blockOne.occupying.GetDownSpace();
         GridSpace nextTwo = blockTwo.occupying.GetDownSpace();
-        if ((nextOne && !nextOne.isOccupied) && (nextTwo && !nextTwo.isOccupied))
+
+        if  ((nextOne != null && (!nextOne.isOccupied || currentlyOccupying(nextOne))) &&
+             (nextTwo != null && (!nextTwo.isOccupied || currentlyOccupying(nextTwo))))
+
         {
             updatePosition(nextOne, nextTwo);
             return true;
         }
 
+        // print("false");
+
+        return false;
+    }
+
+    bool currentlyOccupying(GridSpace nextOne)
+    {
+        if (nextOne == null)
+            return false;
+        bool nextOneEquals = (nextOne.transform.gameObject == blockOne.occupying.gameObject) || 
+                             (nextOne.transform.gameObject == blockTwo.occupying.gameObject);
+        print("currently occupying: " + nextOneEquals);
+        return nextOneEquals;
+    }
+
+    
+    // ------> +X
+    // down -> +Y
+    // Keep one of pieces steady, rotate the other one.
+    bool rotateCounterclockwise()
+    {
+        GridSpace centerGS = blockOne.occupying; // Keep still.
+        GridSpace legGS = blockTwo.occupying; 
+  
+        // 
+        if (centerGS.x - legGS.x > 0) // to the left of center
+        {
+            legGS = centerGS.GetDownSpace();
+            if (legGS && !legGS.isOccupied)
+            {
+                updatePosition(centerGS, legGS);
+                return true;
+            }
+        }
+        
+        else if (centerGS.x - legGS.x < 0) // to the right of center
+        {
+            legGS = centerGS.GetUpSpace();
+            if (legGS && !legGS.isOccupied)
+            {
+                updatePosition(centerGS, legGS);
+                return true;
+            }    
+        }
+        
+        else if (centerGS.y - legGS.y > 0) // above center
+        {
+            legGS = centerGS.GetLeftSpace();
+            if (legGS && !legGS.isOccupied)
+            {
+                updatePosition(centerGS, legGS);
+                return true;
+            }    
+        }
+        
+        else if (centerGS.y - legGS.y < 0)
+        {
+            legGS = centerGS.GetRightSpace();
+            if (legGS && !legGS.isOccupied)
+            {
+                updatePosition(centerGS, legGS);
+                return true;
+            }    
+        }
+        
+        return false;
+    }
+
+
+    bool rotateClockwise()
+    {
+        GridSpace centerGS = blockOne.occupying; // Keep still.
+        GridSpace legGS = blockTwo.occupying; 
+  
+        // 
+        if (centerGS.x - legGS.x > 0) // to the left of center
+        {
+            legGS = centerGS.GetUpSpace();
+            if (legGS && !legGS.isOccupied)
+            {
+                updatePosition(centerGS, legGS);
+                return true;
+            }
+        }
+        
+        else if (centerGS.x - legGS.x < 0) // to the right of center
+        {
+            legGS = centerGS.GetDownSpace();
+            if (legGS && !legGS.isOccupied)
+            {
+                updatePosition(centerGS, legGS);
+                return true;
+            }    
+        }
+        
+        else if (centerGS.y - legGS.y > 0) // above center
+        {
+            legGS = centerGS.GetRightSpace();
+            if (legGS && !legGS.isOccupied)
+            {
+                updatePosition(centerGS, legGS);
+                return true;
+            }    
+        }
+        
+        else if (centerGS.y - legGS.y < 0)
+        {
+            legGS = centerGS.GetLeftSpace();
+            if (legGS && !legGS.isOccupied)
+            {
+                updatePosition(centerGS, legGS);
+                return true;
+            }    
+        }
+        
         return false;
     }
 }
