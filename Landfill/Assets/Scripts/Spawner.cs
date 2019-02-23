@@ -9,7 +9,6 @@ using UnityEngine;
         public GamePiece gamePiecePrefab;
         public Block blockPrefab;
         public GridSpace spawnSpace;
-
         
         // Note: this list of sprites must match up to Block.Type enum!
         public List<Sprite> sprites;
@@ -44,7 +43,7 @@ using UnityEngine;
                 blockOne.type = getRandomType();
                 blockTwo.type = getRandomType();
                 // to do: make sure trash and nuclear are not together
-                
+//                blockOne.occupying.blo
                 newGamePiece.blockOne = blockOne;
                 newGamePiece.blockTwo = blockTwo;
         

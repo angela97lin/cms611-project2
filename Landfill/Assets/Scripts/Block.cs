@@ -9,8 +9,8 @@ using UnityEngine;
 
         public enum Type
         {
-            Nuclear,
             Garbage,
+            Nuclear,
             Recycleable,
             Size
         }
@@ -21,11 +21,10 @@ using UnityEngine;
         // Whenever a new block is placed, all current recycleable
         // next to nuclear will counter down.    
 
-        void setType(Type setTypeTo)
+        void setType(Type setTypeTo, Sprite setSpriteTo)
         {
             type = setTypeTo;
-            occupying.GetComponent<SpriteRenderer>().sprite = mySprite;
-
+            occupying.GetComponent<SpriteRenderer>().sprite = setSpriteTo;
         }
 
     }
