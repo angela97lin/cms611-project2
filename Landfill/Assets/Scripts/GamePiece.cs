@@ -124,7 +124,8 @@ public class GamePiece : MonoBehaviour
         // in actuality, this might not be good enough with rotations...
         GridSpace nextOne = blockOne.occupying.GetRightSpace();
         GridSpace nextTwo = blockTwo.occupying.GetRightSpace();
-        if (nextTwo && (!nextTwo.isOccupied || currentlyOccupying(nextTwo)))
+        if  ((nextOne != null && (!nextOne.isOccupied || currentlyOccupying(nextOne))) &&
+             (nextTwo != null && (!nextTwo.isOccupied || currentlyOccupying(nextTwo))))
         {
             updatePosition(nextOne, nextTwo);
             return true;
@@ -137,7 +138,8 @@ public class GamePiece : MonoBehaviour
     {
         GridSpace nextOne = blockOne.occupying.GetLeftSpace();
         GridSpace nextTwo = blockTwo.occupying.GetLeftSpace();
-        if (nextOne && (!nextOne.isOccupied || currentlyOccupying(nextOne)))
+        if  ((nextOne != null && (!nextOne.isOccupied || currentlyOccupying(nextOne))) &&
+             (nextTwo != null && (!nextTwo.isOccupied || currentlyOccupying(nextTwo))))
         {
             updatePosition(nextOne, nextTwo);
             return true;
