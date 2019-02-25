@@ -215,7 +215,18 @@ public class Spawner : MonoBehaviour
     public void Spawn()
     {
         // Note: hardcoded to always spawn at place and one to right :o
-        
+        List<Block.Type[]> blockTypePairs = new List<Block.Type[]>();
+        Block.Type[] twoGarbage = { Block.Type.Garbage, Block.Type.Garbage };
+        Block.Type[] twoRecycleable = { Block.Type.Recycleable, Block.Type.Recycleable };
+        Block.Type[] garbageRecycleable = { Block.Type.Garbage, Block.Type.Recycleable };
+        Block.Type[] recycleableNuclear = { Block.Type.Recycleable, Block.Type.Nuclear };
+        Block.Type[] garbageNuclear = { Block.Type.Garbage, Block.Type.Nuclear };
+        blockTypePairs.Add(twoGarbage);
+        blockTypePairs.Add(twoRecycleable);
+        blockTypePairs.Add(garbageRecycleable);
+        blockTypePairs.Add(recycleableNuclear);
+        blockTypePairs.Add(garbageNuclear);
+
         // Check if it is valid to spawn:
         GridSpace spawnSpaceRight = spawnSpace.GetRightSpace();
         if ((spawnSpace && !spawnSpace.isOccupied) && (spawnSpaceRight && !spawnSpaceRight.isOccupied))
@@ -232,9 +243,9 @@ public class Spawner : MonoBehaviour
             blockTwo.transform.parent = newGamePiece.gameObject.transform;
             blockOne.occupying = spawnSpace;
             blockTwo.occupying = spawnSpace.GetRightSpace();
-            blockOne.type = getRandomType();
-            blockTwo.type = getRandomType();
-            // to do: make sure trash and nuclear are not together
+            Block.Type[] blockTypePair = blockTypePairs[(int)Random.Range(0, blockTypePairs.Count)];
+            blockOne.type = blockTypePair[0];
+            blockTwo.type = blockTypePair[1];
             blockOne.GetComponent<SpriteRenderer>().sprite = sprites[(int)blockOne.type];
             blockTwo.GetComponent<SpriteRenderer>().sprite = sprites[(int)blockTwo.type];
             blockOne.transform.localScale = new Vector3(0.026f, 0.026f, 1f);
