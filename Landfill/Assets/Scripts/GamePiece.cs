@@ -80,7 +80,7 @@ public class GamePiece : MonoBehaviour
             }
         }
 
-        if (Mathf.Abs(autoMoveTime - Time.time) > 0.2f)
+        if (Mathf.Abs(autoMoveTime - Time.time) > 0.6f)
         {
             bool movedDown = moveDown();
             if (!movedDown)
