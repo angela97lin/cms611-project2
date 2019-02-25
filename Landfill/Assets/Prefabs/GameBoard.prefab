@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2943403223461916
+--- !u!1 &8812640758945634088
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,48 +8,49 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2943403223461914}
-  - component: {fileID: 2943403223461915}
+  - component: {fileID: 8812640758945634094}
+  - component: {fileID: 8812640758945634095}
   m_Layer: 0
-  m_Name: Spawner
+  m_Name: GameBoard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2943403223461914
+--- !u!4 &8812640758945634094
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2943403223461916}
+  m_GameObject: {fileID: 8812640758945634088}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.23697798, y: 0.26890534, z: -0.024907202}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2943403223461915
+--- !u!114 &8812640758945634095
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2943403223461916}
+  m_GameObject: {fileID: 8812640758945634088}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b279bc5ef777422c8a57de531468b766, type: 3}
+  m_Script: {fileID: 11500000, guid: 4080d3fc60c4f4157af4b143954a188f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  board: {fileID: 0}
+  gridWidth: 7
+  gridHeight: 14
+  updater: {fileID: 0}
+  boardCenterTransform: {fileID: 8812640758945634094}
+  gridSpacePrefab: {fileID: 2804039402979714126, guid: 07f69a005536a4a9b8638c6e200e2b02,
+    type: 3}
   gamePiecePrefab: {fileID: 6945868969414184942, guid: e516c7b524fe846d4a56d96d6754279c,
     type: 3}
   blockPrefab: {fileID: 2141171024411544276, guid: 42a967ded31dc42e69000fcc352462a4,
     type: 3}
-  spawnSpace: {fileID: 0}
-  sprites:
-  - {fileID: 21300000, guid: fd40d5035707002499321e6287f3d301, type: 3}
-  - {fileID: 21300000, guid: fa1c31f569914ae4abc4470d629e6cfe, type: 3}
-  - {fileID: 21300000, guid: c873c535ab1abfd4ba4078c07ea7c601, type: 3}
+  spawner: {fileID: 2943403223461915, guid: 78af7c65ffa5a43dcb029108e1be431a, type: 3}

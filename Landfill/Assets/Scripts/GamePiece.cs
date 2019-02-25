@@ -10,13 +10,9 @@ public class GamePiece : MonoBehaviour
     static float movedTime = 0f;
     static float autoMoveTime = 0f;
     public Spawner spawner;
-
-    void Start()
-    {
-    }
-
     
-    // To deal with: lose as soon as top hits?
+   
+    // To deal with: lose as soon as top hits (not just when middle)
     void Update()
     {
 
@@ -47,7 +43,7 @@ public class GamePiece : MonoBehaviour
                 {
                     enabled = false;
                     spawner.Spawn();
-
+                    spawner.CheckForClear();
                 }
 
                 movedTime = Time.time;
@@ -63,7 +59,6 @@ public class GamePiece : MonoBehaviour
                          {
                              //enabled = false;
                              //spawner.Spawn();
-         
                          }
          
                          movedTime = Time.time;
@@ -79,7 +74,6 @@ public class GamePiece : MonoBehaviour
                 {
                     //enabled = false;
                     //spawner.Spawn();
-
                 }
 
                 movedTime = Time.time;
@@ -94,14 +88,13 @@ public class GamePiece : MonoBehaviour
                 
                 enabled = false;
                 spawner.Spawn();
-
+                spawner.CheckForClear();
             }
 
             autoMoveTime = Time.time;
         }
 
     }
-
 
 
     void updatePosition(GridSpace nextOne, GridSpace nextTwo)
@@ -111,25 +104,27 @@ public class GamePiece : MonoBehaviour
 
         blockOne.occupying = nextOne;
         blockTwo.occupying = nextTwo;
+        
         currentOneGS.isOccupied = false;
         currentTwoGS.isOccupied = false;
+        currentOneGS.block = null;
+        currentTwoGS.block = null;
 
+
+        nextOne.block = blockOne;
+        nextTwo.block = blockTwo;
         nextOne.isOccupied = true;
         nextTwo.isOccupied = true;
-
-
         blockOne.transform.position = nextOne.transform.position;
         blockTwo.transform.position = nextTwo.transform.position;
     }
 
     bool moveRight()
     {
+        // in actuality, this might not be good enough with rotations...
         GridSpace nextOne = blockOne.occupying.GetRightSpace();
         GridSpace nextTwo = blockTwo.occupying.GetRightSpace();
-
-        // Not a good enough check but for dummy things right now
-        // Will not work for rotations and straight :(
-        if (nextTwo && !nextTwo.isOccupied)
+        if (nextTwo && (!nextTwo.isOccupied || currentlyOccupying(nextTwo)))
         {
             updatePosition(nextOne, nextTwo);
             return true;
@@ -142,7 +137,7 @@ public class GamePiece : MonoBehaviour
     {
         GridSpace nextOne = blockOne.occupying.GetLeftSpace();
         GridSpace nextTwo = blockTwo.occupying.GetLeftSpace();
-        if (nextOne && !nextOne.isOccupied)
+        if (nextOne && (!nextOne.isOccupied || currentlyOccupying(nextOne)))
         {
             updatePosition(nextOne, nextTwo);
             return true;
@@ -163,9 +158,6 @@ public class GamePiece : MonoBehaviour
             updatePosition(nextOne, nextTwo);
             return true;
         }
-
-        // print("false");
-
         return false;
     }
 
@@ -175,7 +167,6 @@ public class GamePiece : MonoBehaviour
             return false;
         bool nextOneEquals = (nextOne.transform.gameObject == blockOne.occupying.gameObject) || 
                              (nextOne.transform.gameObject == blockTwo.occupying.gameObject);
-        print("currently occupying: " + nextOneEquals);
         return nextOneEquals;
     }
 
@@ -183,50 +174,42 @@ public class GamePiece : MonoBehaviour
     // ------> +X
     // down -> +Y
     // Keep one of pieces steady, rotate the other one.
+    // will clean uppppppppp
     bool rotateCounterclockwise()
     {
         GridSpace centerGS = blockOne.occupying; // Keep still.
         GridSpace legGS = blockTwo.occupying; 
+        GridSpace newLegGS = null; 
+        
   
-        // 
         if (centerGS.x - legGS.x > 0) // to the left of center
         {
-            legGS = centerGS.GetDownSpace();
-            if (legGS && !legGS.isOccupied)
-            {
-                updatePosition(centerGS, legGS);
-                return true;
-            }
+            newLegGS = centerGS.GetDownSpace();
+
         }
         
         else if (centerGS.x - legGS.x < 0) // to the right of center
         {
-            legGS = centerGS.GetUpSpace();
-            if (legGS && !legGS.isOccupied)
-            {
-                updatePosition(centerGS, legGS);
-                return true;
-            }    
+            newLegGS = centerGS.GetUpSpace();
+
         }
         
         else if (centerGS.y - legGS.y > 0) // above center
         {
-            legGS = centerGS.GetLeftSpace();
-            if (legGS && !legGS.isOccupied)
-            {
-                updatePosition(centerGS, legGS);
-                return true;
-            }    
+            newLegGS = centerGS.GetLeftSpace();
+   
         }
         
         else if (centerGS.y - legGS.y < 0)
         {
-            legGS = centerGS.GetRightSpace();
-            if (legGS && !legGS.isOccupied)
-            {
-                updatePosition(centerGS, legGS);
-                return true;
-            }    
+            newLegGS = centerGS.GetRightSpace();
+   
+        }
+        
+        if (newLegGS && (!newLegGS.isOccupied || currentlyOccupying(newLegGS)))
+        {
+            updatePosition(centerGS, newLegGS);
+            return true;
         }
         
         return false;
@@ -236,48 +219,35 @@ public class GamePiece : MonoBehaviour
     bool rotateClockwise()
     {
         GridSpace centerGS = blockOne.occupying; // Keep still.
-        GridSpace legGS = blockTwo.occupying; 
-  
+        GridSpace legGS = blockTwo.occupying;
+        GridSpace newLegGS = null;
         // 
         if (centerGS.x - legGS.x > 0) // to the left of center
         {
-            legGS = centerGS.GetUpSpace();
-            if (legGS && !legGS.isOccupied)
-            {
-                updatePosition(centerGS, legGS);
-                return true;
-            }
+            newLegGS = centerGS.GetUpSpace();
         }
         
         else if (centerGS.x - legGS.x < 0) // to the right of center
         {
-            legGS = centerGS.GetDownSpace();
-            if (legGS && !legGS.isOccupied)
-            {
-                updatePosition(centerGS, legGS);
-                return true;
-            }    
+            newLegGS = centerGS.GetDownSpace();
         }
         
         else if (centerGS.y - legGS.y > 0) // above center
         {
-            legGS = centerGS.GetRightSpace();
-            if (legGS && !legGS.isOccupied)
-            {
-                updatePosition(centerGS, legGS);
-                return true;
-            }    
+            newLegGS = centerGS.GetRightSpace(); 
         }
         
         else if (centerGS.y - legGS.y < 0)
         {
-            legGS = centerGS.GetLeftSpace();
-            if (legGS && !legGS.isOccupied)
-            {
-                updatePosition(centerGS, legGS);
-                return true;
-            }    
+            newLegGS = centerGS.GetLeftSpace();
+
         }
+        
+        if (newLegGS && (!newLegGS.isOccupied || currentlyOccupying(newLegGS)))
+        {
+            updatePosition(centerGS, newLegGS);
+            return true;
+        }   
         
         return false;
     }

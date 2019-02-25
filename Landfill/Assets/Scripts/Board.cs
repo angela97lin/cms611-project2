@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoardCreator : MonoBehaviour
+public class Board : MonoBehaviour
 {
     public int gridWidth = 7;
     public int gridHeight = 14;
@@ -11,10 +11,12 @@ public class BoardCreator : MonoBehaviour
     public GridSpace gridSpacePrefab;
     public GamePiece gamePiecePrefab;
     public Block blockPrefab;
-
+    
     public List<List<GridSpace>> board;
-    // Start is called before the first frame update
     public Spawner spawner;
+    
+    
+    // Start is called before the first frame update
     void Start()
     {
         CreateBoard(gridWidth, gridHeight);
@@ -61,12 +63,23 @@ public class BoardCreator : MonoBehaviour
         }
         board[0][0].SetActive();
         spawner.spawnSpace = board[0][gridWidth / 2];
+        spawner.board = this;
         spawner.Spawn();
     }
     
 
+    
+    
     Vector2 GridSpacePosition(int xIndex, int yIndex, int width, int height)
     {
         return new Vector2(boardCenterTransform.position.x, boardCenterTransform.position.y) + new Vector2(xIndex - (width / 2) + 0.5f, -1 * (yIndex - (height / 2) + 0.5f)) * spriteSize;
     }
+
+
+    public List<List<GridSpace>> getBoard()
+    {
+        return board;
+    }
+    
+    
 }

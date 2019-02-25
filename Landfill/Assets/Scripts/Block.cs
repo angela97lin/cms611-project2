@@ -3,9 +3,7 @@ using UnityEngine;
 
     public class Block : MonoBehaviour
     {
-        public GridSpace occupying;
-        public Sprite mySprite;
- 
+        public GridSpace occupying; 
 
         public enum Type
         {
