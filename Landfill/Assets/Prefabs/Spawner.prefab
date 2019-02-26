@@ -43,12 +43,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b279bc5ef777422c8a57de531468b766, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  board: {fileID: 0}
+  board: {fileID: 8812640758945634095, guid: 61577f0fc91d84428bad029fa84fadca, type: 3}
   gamePiecePrefab: {fileID: 6945868969414184942, guid: e516c7b524fe846d4a56d96d6754279c,
     type: 3}
   blockPrefab: {fileID: 2141171024411544276, guid: 42a967ded31dc42e69000fcc352462a4,
     type: 3}
   spawnSpace: {fileID: 0}
+  explosionParticleSystem: {fileID: 2972091409998382803, guid: 601c63b7621ee428d9e88015e3f6d2dd,
+    type: 3}
   sprites:
   - {fileID: 21300000, guid: fd40d5035707002499321e6287f3d301, type: 3}
   - {fileID: 21300000, guid: fa1c31f569914ae4abc4470d629e6cfe, type: 3}

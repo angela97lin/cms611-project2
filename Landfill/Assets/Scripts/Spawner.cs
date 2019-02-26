@@ -18,11 +18,14 @@ public class Spawner : MonoBehaviour
     public GamePiece gamePiecePrefab;
     public Block blockPrefab;
     public GridSpace spawnSpace;
-    
     // Note: this list of sprites must match up to Block.Type enum!
     public List<Sprite> sprites;
 
+    public void Start()
+    {
 
+
+    }
     public Block.Type getRandomType()
     {
         int i = Random.Range(0, (int)Block.Type.Size);
@@ -191,6 +194,16 @@ public class Spawner : MonoBehaviour
             // moveColumnDown(gs);
             if (gs.block != null)
             {
+                if (gs.block.type == Block.Type.Nuclear)
+                {
+                    // activate particle system :)
+                    board.explosion.transform.position = gs.block.transform.position;
+                    board.explosion.GetComponent<ParticleSystem>().Emit (50);
+                    //ParticleSystem.EmissionModule em = board.explosion.GetComponent<ParticleSystem>().emission;
+                    //em.enabled = true;
+
+                    
+                }
                 Destroy(gs.block.gameObject);
             }
 

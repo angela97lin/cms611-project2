@@ -11,7 +11,8 @@ public class Board : MonoBehaviour
     public GridSpace gridSpacePrefab;
     public GamePiece gamePiecePrefab;
     public Block blockPrefab;
-    
+    public GameObject psPrefab;
+    public GameObject explosion;
     public List<List<GridSpace>> board;
     public Spawner spawner;
     
@@ -20,6 +21,9 @@ public class Board : MonoBehaviour
     void Start()
     {
         CreateBoard(gridWidth, gridHeight);
+        explosion = Instantiate(psPrefab, transform.position, Quaternion.identity);
+        explosion.GetComponent<ParticleSystem>().Stop();
+        //explosion.gameObject.SetActive(false);
     }
     
 
