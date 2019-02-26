@@ -18,6 +18,8 @@ public class Spawner : MonoBehaviour
     public GamePiece gamePiecePrefab;
     public Block blockPrefab;
     public GridSpace spawnSpace;
+    public AudioClip recycleableClearClip;
+    public AudioClip nuclearClearClip;
     
     // Note: this list of sprites must match up to Block.Type enum!
     public List<Sprite> sprites;
@@ -36,6 +38,8 @@ public class Spawner : MonoBehaviour
     {
         HashSet<GridSpace> toClear = new HashSet<GridSpace>();
         List<List<GridSpace>> gameBoard = board.getBoard();
+        bool clearedRecycleable = false;
+        bool clearedNuclear = false;
         for (int yIndex = 0; yIndex < board.gridHeight; yIndex++)
         {
             for (int xIndex = 0; xIndex < board.gridWidth; xIndex++)
@@ -81,6 +85,7 @@ public class Spawner : MonoBehaviour
                         toClear.Add(currentSpace);
                         toClear.Add(oneBelow);
                         toClear.Add(twoBelow);
+                        clearedRecycleable = true;
                     }
                 }
                 
@@ -173,6 +178,7 @@ public class Spawner : MonoBehaviour
                             toClear.Add(gameBoard[yIndex + 1][xIndex + 1]);
                         }
                         toClear.Add(currentSpace);
+                        clearedNuclear = true;
                     }
                 }
 
@@ -190,7 +196,21 @@ public class Spawner : MonoBehaviour
 
             gs.block = null;
         }
-        
+
+        AudioSource audioSource = GameObject.FindWithTag("SFX").GetComponent<AudioSource>();
+        if (clearedNuclear)
+        {
+            audioSource.Stop();
+            audioSource.clip = nuclearClearClip;
+            audioSource.Play();
+        }
+        if (clearedRecycleable)
+        {
+            audioSource.Stop();
+            audioSource.clip = recycleableClearClip;
+            audioSource.Play();
+        }
+
     }
 
 

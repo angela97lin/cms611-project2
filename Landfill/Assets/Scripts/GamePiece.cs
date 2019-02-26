@@ -41,6 +41,7 @@ public class GamePiece : MonoBehaviour
                 if (!movedDown)
                 {
                     enabled = false;
+                    GetComponent<AudioSource>().Play();
                     spawner.Spawn();
                     spawner.CheckForClear();
                 }
@@ -51,12 +52,13 @@ public class GamePiece : MonoBehaviour
 
         else if (Input.GetKeyDown(KeyCode.X)) // 
                  {
-                     if (Mathf.Abs(movedTime - Time.time) > 0.15f)
+                     if (Mathf.Abs(movedTime - Time.time) > 0.10f)
                      {
                          bool rotated = rotateClockwise();
                          if (!rotated)
                          {
                              //enabled = false;
+                             //GetComponent<AudioSource>().Play();
                              //spawner.Spawn();
                          }
          
@@ -66,12 +68,13 @@ public class GamePiece : MonoBehaviour
         
         else if (Input.GetKeyDown(KeyCode.Z)) // 
         {
-            if (Mathf.Abs(movedTime - Time.time) > 0.15f)
+            if (Mathf.Abs(movedTime - Time.time) > 0.10f)
             {
                 bool rotated = rotateCounterclockwise();
                 if (!rotated)
                 {
                     //enabled = false;
+                    //GetComponent<AudioSource>().Play();
                     //spawner.Spawn();
                 }
 
@@ -86,6 +89,7 @@ public class GamePiece : MonoBehaviour
             {
                 
                 enabled = false;
+                GetComponent<AudioSource>().Play();
                 spawner.Spawn();
                 spawner.CheckForClear();
             }

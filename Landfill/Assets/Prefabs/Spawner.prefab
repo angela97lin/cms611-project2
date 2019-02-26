@@ -49,6 +49,9 @@ MonoBehaviour:
   blockPrefab: {fileID: 2141171024411544276, guid: 42a967ded31dc42e69000fcc352462a4,
     type: 3}
   spawnSpace: {fileID: 0}
+  recycleableClearClip: {fileID: 8300000, guid: feb8796791e494fd9a0c89e89c65c4f7,
+    type: 3}
+  nuclearClearClip: {fileID: 8300000, guid: 4a3c178918eed4e75bb3f5885d7b1583, type: 3}
   sprites:
   - {fileID: 21300000, guid: fd40d5035707002499321e6287f3d301, type: 3}
   - {fileID: 21300000, guid: fa1c31f569914ae4abc4470d629e6cfe, type: 3}
