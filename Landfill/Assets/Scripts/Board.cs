@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Board : MonoBehaviour
 {
@@ -15,17 +16,24 @@ public class Board : MonoBehaviour
     public GameObject explosion;
     public List<List<GridSpace>> board;
     public Spawner spawner;
-    
-    
+    public int score;
+    public Canvas canvas;
+    public TextMeshPro scoreText;
+
+
     // Start is called before the first frame update
     void Start()
     {
         CreateBoard(gridWidth, gridHeight);
         explosion = Instantiate(psPrefab, transform.position, Quaternion.identity);
         explosion.GetComponent<ParticleSystem>().Stop();
-        //explosion.gameObject.SetActive(false);
+        score = 0;
     }
-    
+
+    void Update()
+    {
+        canvas.GetComponentInChildren<TextMeshProUGUI>().SetText("Score: " + score);
+    }
 
     void CreateBoard(int width, int height)
     {
@@ -41,7 +49,6 @@ public class Board : MonoBehaviour
         {
             for (int xIndex = 0; xIndex < width; xIndex++)
             {
-                // TODO: Instantiate in proper location
                 GridSpace gridSpace = Instantiate(gridSpacePrefab, GridSpacePosition(xIndex, yIndex, width, height),
                     Quaternion.identity);
                 board[yIndex].Add(gridSpace);
@@ -59,24 +66,24 @@ public class Board : MonoBehaviour
                 {
                     currentSpace.SetDownSpace(board[yIndex + 1][xIndex]);
                 }
+
                 if (xIndex + 1 < width)
                 {
                     currentSpace.SetRightSpace(board[yIndex][xIndex + 1]);
                 }
             }
         }
-        board[0][0].SetActive();
+
         spawner.spawnSpace = board[0][gridWidth / 2];
         spawner.board = this;
         spawner.Spawn();
     }
-    
 
-    
-    
+
     Vector2 GridSpacePosition(int xIndex, int yIndex, int width, int height)
     {
-        return new Vector2(boardCenterTransform.position.x, boardCenterTransform.position.y) + new Vector2(xIndex - (width / 2) + 0.5f, -1 * (yIndex - (height / 2) + 0.5f)) * spriteSize;
+        return new Vector2(boardCenterTransform.position.x, boardCenterTransform.position.y) +
+               new Vector2(xIndex - (width / 2) + 0.5f, -1 * (yIndex - (height / 2) + 0.5f)) * spriteSize;
     }
 
 
@@ -84,6 +91,4 @@ public class Board : MonoBehaviour
     {
         return board;
     }
-    
-    
 }

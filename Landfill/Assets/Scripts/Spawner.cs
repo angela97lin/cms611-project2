@@ -36,6 +36,7 @@ public class Spawner : MonoBehaviour
     }
 
 
+    // to do????
     public void fixFloatingBlocks()
     {
         List<List<GridSpace>> gameBoard = board.getBoard();
@@ -46,8 +47,36 @@ public class Spawner : MonoBehaviour
             }
         }
     }
-    
-    
+
+    public bool CheckForExplosions()
+    {
+        List<List<GridSpace>> gameBoard = board.getBoard();
+        for (int yIndex = 0; yIndex < board.gridHeight; yIndex++)
+        {
+            for (int xIndex = 0; xIndex < board.gridWidth; xIndex++)
+            {
+                GridSpace currentSpace = gameBoard[yIndex][xIndex];
+                if (currentSpace.block != null && currentSpace.block.type == Block.Type.Nuclear)
+                {
+                    // should suffice to just check these?
+                    GridSpace oneToRight = currentSpace.GetRightSpace();
+                    GridSpace oneToBot = currentSpace.GetDownSpace();
+                    if ((oneToRight != null && oneToRight.block != null && oneToRight.block.type == Block.Type.Nuclear) ||
+                        (oneToBot != null && oneToBot.block != null && oneToBot.block.type == Block.Type.Nuclear))
+                    {
+                        print("GG you lose!!");
+                        return true;
+                    }
+                }
+
+       
+                }
+            }
+
+        return false;
+
+    }
+
     // check if three in a row ==> clear 
     public void CheckForClear()
     {
@@ -208,8 +237,13 @@ public class Spawner : MonoBehaviour
                     board.explosion.GetComponent<ParticleSystem>().Emit (50);
                     //ParticleSystem.EmissionModule em = board.explosion.GetComponent<ParticleSystem>().emission;
                     //em.enabled = true;
-
+                    board.score += 10;
                     
+                }
+                else if (gs.block.type == Block.Type.Recycleable)
+                {
+                    board.score += 1;
+
                 }
                 Destroy(gs.block.gameObject);
             }

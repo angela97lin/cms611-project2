@@ -13,32 +13,7 @@ using UnityEngine;
     {
         public Board board;
 
-        public bool CheckForNuclearExplosions()
-        {
-            List<List<GridSpace>> gameBoard = board.getBoard();
-            
-            return false;
-        }
 
-      
-
-        public void UpdateNuclearDegradation()
-        {
-            
-        }
-        
-        
-        public bool CheckGarbageSurroundingNuclear()
-        {
-            return false;
-        }
-        
-        public void CheckAndUpdate()
-        {
-            
-             
-            
-        }
         
         
         

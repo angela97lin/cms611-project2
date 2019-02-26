@@ -44,9 +44,8 @@ using UnityEngine;
                 if (!movedDown)
                 {
                     enabled = false;
-                    print("yaaaaaay!");
                 }
-  
+ 
             }
             autoMoveTime = Time.time;
 

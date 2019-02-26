@@ -42,8 +42,12 @@ public class GamePiece : MonoBehaviour
                 {
                     enabled = false;
                     GetComponent<AudioSource>().Play();
-                    spawner.Spawn();
-                    spawner.CheckForClear();
+                    bool explodedAndLost = spawner.CheckForExplosions();
+                    if (!explodedAndLost)
+                    {
+                        spawner.Spawn();
+                        spawner.CheckForClear();
+                    }
                 }
 
                 movedTime = Time.time;
@@ -90,8 +94,13 @@ public class GamePiece : MonoBehaviour
                 
                 enabled = false;
                 GetComponent<AudioSource>().Play();
-                spawner.Spawn();
-                spawner.CheckForClear();
+                bool explodedAndLost = spawner.CheckForExplosions();
+                if (!explodedAndLost)
+                {
+                    spawner.Spawn();
+                    spawner.CheckForClear();
+                }
+
             }
 
             autoMoveTime = Time.time;
