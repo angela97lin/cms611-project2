@@ -234,6 +234,7 @@ public class Spawner : MonoBehaviour
         blockTypePairs.Add(garbageRecycleable);
         blockTypePairs.Add(recycleableNuclear);
         blockTypePairs.Add(garbageNuclear);
+        float[] pairProbabilityCutoffs = {10/16f, 7/16f, 3/16f, 2/16f, 0/16f};
 
         // Check if it is valid to spawn:
         GridSpace spawnSpaceRight = spawnSpace.GetRightSpace();
@@ -251,7 +252,17 @@ public class Spawner : MonoBehaviour
             blockTwo.transform.parent = newGamePiece.gameObject.transform;
             blockOne.occupying = spawnSpace;
             blockTwo.occupying = spawnSpace.GetRightSpace();
-            Block.Type[] blockTypePair = blockTypePairs[(int)Random.Range(0, blockTypePairs.Count)];
+            float rand = Random.Range(0f, 1f);
+            int pairIndex = 0;
+            for (int probIter = 0; probIter < pairProbabilityCutoffs.Length; probIter++)
+            {
+                if (rand > pairProbabilityCutoffs[probIter])
+                {
+                    pairIndex = probIter;
+                    break;
+                }
+            }
+            Block.Type[] blockTypePair = blockTypePairs[pairIndex];
             blockOne.type = blockTypePair[0];
             blockTwo.type = blockTypePair[1];
             blockOne.GetComponent<SpriteRenderer>().sprite = sprites[(int)blockOne.type];
