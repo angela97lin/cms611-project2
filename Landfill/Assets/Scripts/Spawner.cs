@@ -28,9 +28,20 @@ public class Spawner : MonoBehaviour
         int i = Random.Range(0, (int)Block.Type.Size);
         return (Block.Type) i;
     }
-    
-    
 
+
+    public void fixFloatingBlocks()
+    {
+        List<List<GridSpace>> gameBoard = board.getBoard();
+        for (int yIndex = 0; yIndex < board.gridHeight; yIndex++)
+        {
+            for (int xIndex = 0; xIndex < board.gridWidth; xIndex++)
+            {
+            }
+        }
+    }
+    
+    
     // check if three in a row ==> clear 
     public void CheckForClear()
     {
@@ -52,9 +63,7 @@ public class Spawner : MonoBehaviour
                         currentSpace.block.type == Block.Type.Recycleable
                         && oneToRight.block.type == Block.Type.Recycleable
                         && twoToRight.block.type == Block.Type.Recycleable)
-                    {
-                        print("Horizontal");
-                        
+                    {                        
                         toClear.Add(currentSpace);
                         toClear.Add(oneToRight);
                         toClear.Add(twoToRight);
@@ -75,9 +84,6 @@ public class Spawner : MonoBehaviour
                         && oneBelow.block.type == Block.Type.Recycleable
                         && twoBelow.block.type == Block.Type.Recycleable)
                     {
-                        print(oneBelow.block);
-                        print("vertical");
-                        print(currentSpace.x + "," + currentSpace.y);
                         toClear.Add(currentSpace);
                         toClear.Add(oneBelow);
                         toClear.Add(twoBelow);
@@ -194,24 +200,6 @@ public class Spawner : MonoBehaviour
     }
 
 
-    public void moveColumnDown(GridSpace source)
-    {
-        // move down connected components after a clear
-        GridSpace current = source;
-        GridSpace currentUp = current.GetUpSpace();
-        while (currentUp.isOccupied)
-        {
-            current.block = currentUp.block;
-            current.isOccupied = true;
-            currentUp.isOccupied = false;
-            current = currentUp;
-            currentUp = current.GetUpSpace();
-        }
-        
-
-
-    }
-    
     public void Spawn()
     {
         // Note: hardcoded to always spawn at place and one to right :o
@@ -234,9 +222,9 @@ public class Spawner : MonoBehaviour
             GamePiece newGamePiece =
                 Instantiate(gamePiecePrefab, spawnSpace.transform.position, Quaternion.identity);
             Block blockOne =
-                Instantiate(blockPrefab, spawnSpace.transform.position + new Vector3(0.15f, 0.0f, 0.0f), Quaternion.identity);
-            Block blockTwo =
                 Instantiate(blockPrefab, spawnSpace.transform.position, Quaternion.identity);
+            Block blockTwo =
+                Instantiate(blockPrefab, spawnSpaceRight.transform.position, Quaternion.identity);
 
             // Set up blocks and game piece
             blockOne.transform.parent = newGamePiece.gameObject.transform;
@@ -248,16 +236,16 @@ public class Spawner : MonoBehaviour
             blockTwo.type = blockTypePair[1];
             blockOne.GetComponent<SpriteRenderer>().sprite = sprites[(int)blockOne.type];
             blockTwo.GetComponent<SpriteRenderer>().sprite = sprites[(int)blockTwo.type];
-            blockOne.transform.localScale = new Vector3(0.026f, 0.026f, 1f);
-            blockTwo.transform.localScale = new Vector3(0.026f, 0.026f, 1f);
+            blockOne.transform.localScale = new Vector3(0.021f, 0.021f, 1f);
+            blockTwo.transform.localScale = new Vector3(0.021f, 0.021f, 1f);
             
             newGamePiece.blockOne = blockOne;
             newGamePiece.blockTwo = blockTwo;
-    
-            spawnSpace.isOccupied = true;
+   
             spawnSpace.block = blockOne;
             spawnSpaceRight.block = blockTwo;
-            spawnSpace.GetRightSpace().isOccupied = true; 
+            spawnSpace.isOccupied = true;
+            spawnSpaceRight.isOccupied = true; 
             
         }
 

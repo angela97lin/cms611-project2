@@ -154,7 +154,6 @@ public class GamePiece : MonoBehaviour
 
         if  ((nextOne != null && (!nextOne.isOccupied || currentlyOccupying(nextOne))) &&
              (nextTwo != null && (!nextTwo.isOccupied || currentlyOccupying(nextTwo))))
-
         {
             updatePosition(nextOne, nextTwo);
             return true;
