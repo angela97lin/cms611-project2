@@ -10,7 +10,7 @@ public class GamePiece : MonoBehaviour
     static float autoMoveTime = 0f;
     public Spawner spawner;
     
-   
+    public float autoMoveDownTime = 0.4f;
     // To deal with: lose as soon as top hits (not just when middle)
     void Update()
     {
@@ -82,7 +82,7 @@ public class GamePiece : MonoBehaviour
             }
         }
 
-        if (Mathf.Abs(autoMoveTime - Time.time) > 0.6f)
+        if (Mathf.Abs(autoMoveTime - Time.time) > autoMoveDownTime)
         {
             bool movedDown = moveDown();
             if (!movedDown)
