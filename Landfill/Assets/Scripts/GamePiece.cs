@@ -109,9 +109,9 @@ public class GamePiece : MonoBehaviour
         currentOneGS.block = null;
         currentTwoGS.block = null;
 
-
         nextOne.block = blockOne;
         nextTwo.block = blockTwo;
+        
         nextOne.isOccupied = true;
         nextTwo.isOccupied = true;
         blockOne.transform.position = nextOne.transform.position;
