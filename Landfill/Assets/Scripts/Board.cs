@@ -30,7 +30,7 @@ public class Board : MonoBehaviour
             CreateBoard(gridWidth, gridHeight);
             explosion = Instantiate(psPrefab, transform.position, Quaternion.identity);
             explosion.GetComponent<ParticleSystem>().Stop();
-            loseText = Instantiate(loseTextPrefab, transform.position, Quaternion.identity);
+            loseText = Instantiate(loseTextPrefab, Vector3.back, Quaternion.identity);
             loseText.SetActive(false);
             
 
