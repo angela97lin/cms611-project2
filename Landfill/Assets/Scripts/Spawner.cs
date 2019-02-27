@@ -282,7 +282,7 @@ public class Spawner : MonoBehaviour
         blockTypePairs.Add(garbageRecycleable);
         blockTypePairs.Add(recycleableNuclear);
         blockTypePairs.Add(garbageNuclear);
-        float[] pairProbabilityCutoffs = {10/16f, 7/16f, 3/16f, 2/16f, 0/16f};
+        float[] pairProbabilityCutoffs = {12/16f, 8/16f, 4/16f, 3/16f, 0/16f};
 
         // Check if it is valid to spawn:
         GridSpace spawnSpaceRight = spawnSpace.GetRightSpace();
