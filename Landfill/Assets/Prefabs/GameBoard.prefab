@@ -154,8 +154,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8812640758945634088}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 6.41, z: 0}
+  m_LocalScale: {x: 0.75779, y: 0.75779, z: 0.75779}
   m_Children:
   - {fileID: 4183891542691268158}
   m_Father: {fileID: 0}
@@ -182,7 +182,12 @@ MonoBehaviour:
     type: 3}
   blockPrefab: {fileID: 2141171024411544276, guid: 42a967ded31dc42e69000fcc352462a4,
     type: 3}
+  psPrefab: {fileID: 0}
+  explosion: {fileID: 0}
   spawner: {fileID: 2943403223461915, guid: 78af7c65ffa5a43dcb029108e1be431a, type: 3}
+  score: 0
+  canvas: {fileID: 0}
+  scoreText: {fileID: 0}
 --- !u!81 &2979869750660324627
 AudioListener:
   m_ObjectHideFlags: 0

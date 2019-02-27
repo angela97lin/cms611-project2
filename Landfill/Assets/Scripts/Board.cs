@@ -24,10 +24,13 @@ public class Board : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        CreateBoard(gridWidth, gridHeight);
-        explosion = Instantiate(psPrefab, transform.position, Quaternion.identity);
-        explosion.GetComponent<ParticleSystem>().Stop();
         score = 0;
+
+            CreateBoard(gridWidth, gridHeight);
+            explosion = Instantiate(psPrefab, transform.position, Quaternion.identity);
+            explosion.GetComponent<ParticleSystem>().Stop();
+            
+
     }
 
     void Update()
@@ -74,8 +77,14 @@ public class Board : MonoBehaviour
             }
         }
 
-        spawner.spawnSpace = board[0][gridWidth / 2];
+
         spawner.board = this;
+        spawner.spawnSpace = board[0][gridWidth / 2];
+        float time = 10000.0f;
+        while (time > 0)
+        {
+            time -= Time.deltaTime;
+        }
         spawner.Spawn();
     }
 
