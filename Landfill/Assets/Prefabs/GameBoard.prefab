@@ -137,7 +137,6 @@ GameObject:
   m_Component:
   - component: {fileID: 8812640758945634094}
   - component: {fileID: 8812640758945634095}
-  - component: {fileID: 2979869750660324627}
   - component: {fileID: 6816963185777401124}
   m_Layer: 0
   m_Name: GameBoard
@@ -182,20 +181,13 @@ MonoBehaviour:
     type: 3}
   blockPrefab: {fileID: 2141171024411544276, guid: 42a967ded31dc42e69000fcc352462a4,
     type: 3}
-  psPrefab: {fileID: 0}
+  psPrefab: {fileID: 2972091409998382801, guid: 601c63b7621ee428d9e88015e3f6d2dd,
+    type: 3}
   explosion: {fileID: 0}
   spawner: {fileID: 2943403223461915, guid: 78af7c65ffa5a43dcb029108e1be431a, type: 3}
   score: 0
   canvas: {fileID: 0}
   scoreText: {fileID: 0}
---- !u!81 &2979869750660324627
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8812640758945634088}
-  m_Enabled: 1
 --- !u!82 &6816963185777401124
 AudioSource:
   m_ObjectHideFlags: 0

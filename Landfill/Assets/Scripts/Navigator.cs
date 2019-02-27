@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class Navigator : MonoBehaviour
 {
-
+    private bool loadingScene = false;
 
     // Use this for initialization
     void Start()
@@ -16,7 +16,7 @@ public class Navigator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !loadingScene)
             
         {
 
@@ -37,17 +37,33 @@ public class Navigator : MonoBehaviour
                 {
 
                     case "start":
-                        SceneManager.LoadScene("Ange");
+                        loadingScene = true;
+                        enabled = false;
+                        //SceneManager.LoadScene("Ange");
+                        StartCoroutine(LoadScene("Ange"));
+                        StartCoroutine(LoadScene("Ange"));
                         break;
                     case "htp":
+                        loadingScene = true;
                         enabled = false;
-                        SceneManager.LoadScene("howToPlay");
+                        //SceneManager.LoadScene("howToPlay");
+                        StartCoroutine(LoadScene("howToPlay"));
                         break;
                     default:
                         break;
                 }
 
             }
+        }
+    }
+
+    IEnumerator LoadScene(string sceneName)
+    {
+        AsyncOperation async = SceneManager.LoadSceneAsync(sceneName);
+
+        while (!async.isDone)
+        {
+            yield return null;
         }
     }
 }
