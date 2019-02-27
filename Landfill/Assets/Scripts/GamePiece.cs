@@ -33,26 +33,26 @@ public class GamePiece : MonoBehaviour
             }
         }
 
-        else if (Input.GetAxisRaw("Vertical") < -0.5f) // Down
-        {
-            if (Mathf.Abs(movedTime - Time.time) > 0.5f)
-            {
-                bool movedDown = moveDown();
-                if (!movedDown)
-                {
-                    enabled = false;
-                    GetComponent<AudioSource>().Play();
-                    bool explodedAndLost = spawner.CheckForExplosions();
-                    if (!explodedAndLost)
-                    {
-                        spawner.Spawn();
-                        spawner.CheckForClear();
-                    }
-                }
+        //else if (Input.GetAxisRaw("Vertical") < -0.5f) // Down
+        //{
+        //    if (Mathf.Abs(movedTime - Time.time) > 0.5f)
+        //    {
+        //        bool movedDown = moveDown();
+        //        if (!movedDown)
+        //        {
+        //            enabled = false;
+        //            GetComponent<AudioSource>().Play();
+        //            bool explodedAndLost = spawner.CheckForExplosions();
+        //            if (!explodedAndLost)
+        //            {
+        //                spawner.Spawn();
+        //                spawner.CheckForClear();
+        //            }
+        //        }
 
-                movedTime = Time.time;
-            }
-        }
+        //        movedTime = Time.time;
+        //    }
+        //}
 
         else if (Input.GetKeyDown(KeyCode.X)) // 
                  {
@@ -86,7 +86,13 @@ public class GamePiece : MonoBehaviour
             }
         }
 
-        if (Mathf.Abs(autoMoveTime - Time.time) > autoMoveDownTime)
+        float adjustedAutoMoveTime = autoMoveDownTime;
+        if (Input.GetAxisRaw("Vertical") < -0.5f)
+        {
+            adjustedAutoMoveTime *= 0.25f;
+        }
+        Debug.Log("autoDown: " + autoMoveDownTime + ", adjustAutoDown: " + adjustedAutoMoveTime);
+        if (Mathf.Abs(autoMoveTime - Time.time) > adjustedAutoMoveTime)
         {
             bool movedDown = moveDown();
             if (!movedDown)
