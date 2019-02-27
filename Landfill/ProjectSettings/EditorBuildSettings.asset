@@ -12,12 +12,12 @@ EditorBuildSettings:
     path: Assets/Scenes/Dan.unity
     guid: e396994e57f9b4913af4dde7dcdaba17
   - enabled: 1
-    path: Assets/Scenes/Ange.unity
-    guid: 7bac996e57177450b945bc3a80509474
-  - enabled: 1
     path: Assets/Scenes/startMenu.unity
     guid: f3852be7c34223c46af90a34f28fc6cf
   - enabled: 1
     path: Assets/Scenes/howToPlay.unity
     guid: 18c0398db2b646b43916b114dceb99ef
+  - enabled: 1
+    path: Assets/Scenes/Ange.unity
+    guid: 7bac996e57177450b945bc3a80509474
   m_configObjects: {}
