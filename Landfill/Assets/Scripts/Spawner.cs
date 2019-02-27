@@ -64,7 +64,7 @@ public class Spawner : MonoBehaviour
                     if ((oneToRight != null && oneToRight.block != null && oneToRight.block.type == Block.Type.Nuclear) ||
                         (oneToBot != null && oneToBot.block != null && oneToBot.block.type == Block.Type.Nuclear))
                     {
-                        print("GG you lose!!");
+                        board.loseText.SetActive(true); 
                         return true;
                     }
                 }
@@ -332,6 +332,7 @@ public class Spawner : MonoBehaviour
         {
             
             // User lost!
+            board.loseText.SetActive(true);
         }
 
     }

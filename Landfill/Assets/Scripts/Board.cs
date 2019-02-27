@@ -19,7 +19,8 @@ public class Board : MonoBehaviour
     public int score;
     public Canvas canvas;
     public TextMeshPro scoreText;
-
+    public GameObject loseTextPrefab;
+    public GameObject loseText;
 
     // Start is called before the first frame update
     void Start()
@@ -29,6 +30,8 @@ public class Board : MonoBehaviour
             CreateBoard(gridWidth, gridHeight);
             explosion = Instantiate(psPrefab, transform.position, Quaternion.identity);
             explosion.GetComponent<ParticleSystem>().Stop();
+            loseText = Instantiate(loseTextPrefab, transform.position, Quaternion.identity);
+            loseText.SetActive(false);
             
 
     }
